@@ -106,7 +106,6 @@ Virtual Machines vs Docker
 | More resource-intensive  | Lightweight and fast                |
 | Slow startup             | Near-instantaneous startup          |
 | Strong isolation         | Sufficient isolation for most cases |
-| ------------------------ | ----------------------------------- |
 
 Environment Variables vs Secrets
 | Environment Variables                 | Secrets                    |
@@ -114,7 +113,6 @@ Environment Variables vs Secrets
 | Easy to use                           | More secure                |
 | Readable by containers                | Encrypted                  |
 | Sufficient for an educational project | Recommended for production |
-| ------------------------------------- | -------------------------- |
 
 Host Network vs Docker Network
 | Host Network           | Docker Network                          |
@@ -122,7 +120,6 @@ Host Network vs Docker Network
 | No network isolation   | Service isolation                       |
 | Risk of port conflicts | Internal DNS resolution                 |
 |                        | Secure communication between containers |
-| ---------------------- | --------------------------------------- |
 
 Bind Mounts vs Docker Volumes
 | Bind Mounts                              | Docker Volumes                 |
@@ -130,4 +127,3 @@ Bind Mounts vs Docker Volumes
 | Depend on the host's directory structure | Managed by Docker              |
 | Less portable                            | Safer                          |
 |                                          | Independent of the host system |
-| ---------------------------------------- | ------------------------------ |
