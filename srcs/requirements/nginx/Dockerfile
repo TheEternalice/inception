@@ -10,6 +10,6 @@ RUN mkdir -p /etc/nginx/ssl && \
 
 COPY conf/my_default.conf /etc/nginx/http.d/default.conf
 
-EXPOSE 443
+EXPOSE 443/tcp
 
 CMD ["nginx", "-g", "daemon off;"]

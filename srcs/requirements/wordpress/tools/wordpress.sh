@@ -5,12 +5,21 @@ while ! mariadb -h mariadb -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE"
     sleep 2
 done
 echo "MariaDB is ready."
+
+echo "Waiting for Redis..."
+while ! timeout 1 bash -c "echo > /dev/tcp/redis/6379" 2>/dev/null; do
+    sleep 2
+done
+echo "Redis is ready."
+
 mkdir -p /srv/www/wordpress
 cd /srv/www/wordpress
+
 if [ ! -f wp-cli.phar ]; then
     wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
     chmod +x wp-cli.phar
 fi
+
 if [ ! -f wp-config.php ]; then
     echo "Installing WordPress..."
     php -d memory_limit=512M wp-cli.phar core download --allow-root
@@ -20,6 +29,10 @@ if [ ! -f wp-config.php ]; then
         --dbpass="$MYSQL_PASSWORD" \
         --dbhost="mariadb" \
         --allow-root
+    
+    # Add Redis configuration directly to wp-config.php BEFORE "stop editing" line
+    sed -i "/\/\* That's all, stop editing/i \\\n\/\/ Redis Configuration\ndefine('WP_REDIS_HOST', 'redis');\ndefine('WP_REDIS_PORT', 6379);\ndefine('WP_REDIS_DATABASE', 0);\ndefine('WP_REDIS_TIMEOUT', 1);\ndefine('WP_REDIS_READ_TIMEOUT', 1);\n" wp-config.php
+    
     php -d memory_limit=512M wp-cli.phar core install \
         --url="$DOMAIN_NAME" \
         --title="$WORDPRESS_TITLE" \
@@ -27,6 +40,10 @@ if [ ! -f wp-config.php ]; then
         --admin_password="$WORDPRESS_ADMIN_PASSWORD" \
         --admin_email="$WORDPRESS_ADMIN_EMAIL" \
         --allow-root
+    
+    echo "Configuring Redis for WordPress..."
+    php wp-cli.phar plugin install redis-cache --activate --allow-root
+    php wp-cli.phar redis enable --allow-root || echo "Redis enable attempted"
 fi
 
 # Fix permissions for nginx to read files
@@ -39,5 +56,6 @@ chown -R nobody:nobody /srv/www/wordpress
 
 # PHP-FPM listen on 9000
 sed -i 's|listen = 127.0.0.1:9000|listen = 9000|' /etc/php83/php-fpm.d/www.conf
+
 echo "Starting PHP-FPM..."
 exec php-fpm83 -F

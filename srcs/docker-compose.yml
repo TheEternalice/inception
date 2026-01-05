@@ -15,6 +15,20 @@ services:
     networks:
       - inception
     image: mariadb
+  adminer:
+    container_name: adminer
+    init: true
+    restart: always
+    build: ./requirements/bonus/adminer
+    ports:
+      - "8080:8080"
+    volumes:
+      - mariadb:/var/lib/mysql
+    networks:
+      - inception
+    depends_on:
+      - mariadb
+    image: adminer
   wordpress:
     container_name: wordpress
     init: true
@@ -30,7 +44,35 @@ services:
       - inception
     depends_on:
       - mariadb
+      - redis
     image: wordpress
+  ftp:
+    container_name: ftp
+    init: true
+    restart: always
+    env_file:
+      - .env
+    build: ./requirements/bonus/ftp
+    ports:
+      - "21:21"
+      - "21000-21010:21000-21010"
+    volumes:
+      - wordpress:/srv/www/wordpress
+    networks:
+      - inception
+    depends_on:
+      - wordpress
+    image: ftp
+  static_webpage:
+    container_name: static_webpage
+    init: true
+    restart: always
+    build: ./requirements/bonus/static_webpage
+    ports:
+      - "4243:4243"
+    networks:
+      - inception
+    image: static_webpage
   nginx:
     container_name: nginx
     init: true
@@ -49,6 +91,14 @@ services:
       - mariadb
       - wordpress
     image: nginx
+  redis:
+    container_name: redis
+    init: true
+    restart: always
+    build: ./requirements/bonus/redis
+    networks:
+      - inception
+    image: redis
 
 volumes:
   mariadb:
