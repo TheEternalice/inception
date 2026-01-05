@@ -128,7 +128,7 @@ Bind Mounts vs Docker Volumes
 | Less portable                            | Safer                          |
 |                                          | Independent of the host system |
 
-All the documentation read to build/understand this project:
+## Documentation used
 
 https://www.docker.com/resources/what-container/
 
@@ -197,3 +197,6 @@ https://grafana.com/docs/
 https://grafana.com/docs/grafana/latest/introduction/
 
 https://grafana.com/docs/grafana/latest/fundamentals/getting-started/
+
+## AI
+AI was used to fix some typo and to check the readme.
