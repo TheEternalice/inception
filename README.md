@@ -13,6 +13,7 @@ The infrastructure is based on:
 - A **MariaDB** database
 - Persistent volumes
 - A dedicated Docker network
+
 for the bonus part we add to the infrastructure:
 - **Redis** to manage the cache of our wordpress
 - **Adminer** to manage different types of databases without needing multiple tools
