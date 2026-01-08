@@ -39,10 +39,15 @@ ade-rese.42.fr/wp-admin
 ```
 - Adminer webapp (in your browser):
 ```bash
-localhost:8080
+http://localhost:8080/adminer.php
 ```
 - FTP server (in filezilla):
-check what's your Iterm says as information in FTP section
+```bash
+host: ade-rese.42.fr
+user: ade-rese
+password: 123456789 for exemple
+port:
+```
 - Static webpage (in your browser):
 ```bash
 localhost:4243
