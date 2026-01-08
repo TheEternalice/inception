@@ -203,5 +203,7 @@ https://grafana.com/docs/grafana/latest/introduction/
 
 https://grafana.com/docs/grafana/latest/fundamentals/getting-started/
 
+https://www.ipv6.rs/tutorial/Alpine_Linux_Latest/Grafana/
+
 ## AI
 AI was used to fix some typo and to check the readme.
