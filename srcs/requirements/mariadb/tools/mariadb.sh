@@ -1,11 +1,12 @@
 #!/bin/sh
 set -e
 
+# Fix permissions for volumes and socket
 mkdir -p /var/lib/mysql /run/mysqld
 chown -R mysql:mysql /var/lib/mysql /run/mysqld
 chmod 750 /var/lib/mysql /run/mysqld
 
-
+# Initialize DB if empty
 if [ ! -d /var/lib/mysql/mysql ]; then
     echo "Initializing MariaDB..."
     mysql_install_db --user=mysql --datadir=/var/lib/mysql

@@ -8,10 +8,10 @@ services:
     env_file:
       - .env
     build: ./requirements/mariadb
-    ports:
+    expose:
       - "3306:3306"
     volumes:
-      - mariadb:/var/lib/mysql
+      - volume_mariadb:/var/lib/mysql
     networks:
       - inception
     image: mariadb
@@ -23,7 +23,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - mariadb:/var/lib/mysql
+      - volume_mariadb:/var/lib/mysql
     networks:
       - inception
     depends_on:
@@ -39,7 +39,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - wordpress:/srv/www/wordpress
+      - volume_wordpress:/srv/www/wordpress
     networks:
       - inception
     depends_on:
@@ -57,7 +57,7 @@ services:
       - "21:21"
       - "21000-21010:21000-21010"
     volumes:
-      - wordpress:/srv/www/wordpress
+      - volume_wordpress:/srv/www/wordpress
     networks:
       - inception
     depends_on:
@@ -84,7 +84,7 @@ services:
       - "443:443"
       - "80:80"
     volumes:
-      - wordpress:/srv/www/wordpress
+      - volume_wordpress:/srv/www/wordpress
     networks:
       - inception
     depends_on:
@@ -99,10 +99,38 @@ services:
     networks:
       - inception
     image: redis
+  grafana:
+    container_name: grafana
+    init: true
+    restart: always
+    build: ./requirements/bonus/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - volume_grafana:/var/lib/grafana
+    networks:
+      - inception
+    image: grafana
 
 volumes:
-  mariadb:
-  wordpress:
+  volume_mariadb:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: /home/ade-rese/data/mariadb
+  volume_wordpress:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: /home/ade-rese/data/wordpress
+  volume_grafana:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: /home/ade-rese/data/grafana
 
 networks:
   inception:
