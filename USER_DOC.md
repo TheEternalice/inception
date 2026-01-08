@@ -53,7 +53,9 @@ port:
 localhost:4243
 ```
 - Grafana:
-
+```bash
+http://localhost:3000/login
+```
 ## Credential
 If you want to check or change some credential go to the .env file that you have build in srcs
 
