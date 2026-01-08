@@ -76,13 +76,8 @@ docker network ls
 ```
 - To check volumes:
 ```bash
-make mariadb_volume
+docker volume inspect <volume_name>
 ```
-or
-```bash
-docker volume inspect mariadb
-```
-(the same for wordpress)
 
 ## Data
 All the data is stored the docker volumes to ensure the persistence (check docker-compose.yml for the path)
