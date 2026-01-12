@@ -9,7 +9,7 @@ services:
       - .env
     build: ./requirements/mariadb
     expose:
-      - "3306:3306"
+      - "3306"
     volumes:
       - volume_mariadb:/var/lib/mysql
     networks:
